@@ -35,28 +35,54 @@ $games = $mysqli->query($games_sql);
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Steam</title>
+  <meta charset="UTF-8">
+  <title>Steam</title>
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> -->
-	<link rel="stylesheet" href="games_style.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="games_style.css?v=<?php echo time(); ?>">
+  <script src = "script.js" defer></script>
 </head>
 
 <body>
-	<section>
-		<!-- TABLE CONSTRUCTION -->
-
-	</section>
-	<section>
-		<div class="header">
-      <h1>Steam</h1>
-      <div class = "profile"><?php echo $_SESSION['username']?></div>
+  <section>
+      <div class="profile">
+        <?php echo $_SESSION['username']?>
+      </div>
+      <div class = "logout">
+        <a href = '../index.php'>Logout</a>
+      </div>
+    <div class="menu-bar">
+      <ul>
+        <h1>Steam</h1>
+        <div class="pages">
+          <li><a href='https://www.google.com/'>Home</a></li>
+          <li><a href=''>Categories</a></li>
+          <li><a href=''>Purchases</a></li>
+          <li><a href=''>Discounts</a></li>
+          <li><a href=''>News</a></li>
+        </div>
+      </ul>
+      <div class="profile">
+        <?php echo $uname ?>
+      </div>
+      <div class = "logout">
+        <a href = '../index.php'>Logout</a>
+      </div>
     </div>
-		<div class = "games">
+  </section>
+  <section class="main">
+        <?php
+        if ($_SESSION['username'] === "admin") {
+        ?>
+        <button class="add-game">
+          Add Game
+        </button>
+        <?php } ?>
+    <div class="games">
       <?php
         while($game_rows = $games->fetch_assoc()) {
       ?>
       <div class="game-container">
-        <div class = "game-name">
+        <div class="game-name">
           <?php echo $game_rows['name'];?>
         </div>
         <div class="game-price">
@@ -67,15 +93,25 @@ $games = $mysqli->query($games_sql);
             echo "Free";
           ?>
         </div>
-        <div class = "pub-name">
+        <div class="pub-name">
           <?php echo $game_rows['pubName'];?>
         </div>
+        <?php
+        if ($_SESSION['username'] === "admin") {
+        ?>
+        <button class="delete-game">
+          Delete
+        </button>
+        <?php } ?>
       </div>
       <?php
         }
       ?>
     </div>
-	</section>
+    <div class="main-div">
+
+    </div>
+  </section>
 </body>
 
 </html>
